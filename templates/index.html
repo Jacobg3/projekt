@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Dodaj recenzję filmu: </h1>
+
+<form>
+    <div class="mb-3">
+        <label class="form-label">Tytuł filmu</label>
+        <input class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label for="reviewTextarea" class="form-label">Twoja recenzja</label>
+        <textarea class="form-control" rows="3" name="review"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="customRange3" class="form-label">Ocena (1-10) </label>
+        <input type="range" class="form-range" min="0" max="10" step="1" oninput="updateRatingValue(this.value)" >
+    </div>
+
+    <h2 id="ratingValue" class="text-center"></h2>
+
+    <button type="submit" class="btn btn-primary">Wyślij</button>
+</form>
+
+<script>
+    // Aktualizacja oceny
+    function updateRatingValue(value) {
+        rating = `${value} ⭐`
+        document.getElementById('ratingValue').textContent = rating;
+    }
+</script>
+
+{% endblock %}
