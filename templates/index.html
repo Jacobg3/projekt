@@ -3,20 +3,22 @@
 
 <h1>Dodaj recenzję filmu: </h1>
 
-<form>
+<form method="POST" action="{{ url_for('index') }}">
+    
     <div class="mb-3">
         <label class="form-label">Tytuł filmu</label>
-        <input class="form-control">
+        <input class="form-control" name="title" required>
     </div>
 
     <div class="mb-3">
         <label for="reviewTextarea" class="form-label">Twoja recenzja</label>
-        <textarea class="form-control" rows="3" name="review"></textarea>
+        <textarea class="form-control" id="reviewTextarea" rows="3" name="review" required></textarea>
     </div>
 
     <div class="mb-3">
-        <label for="customRange3" class="form-label">Ocena (1-10) </label>
-        <input type="range" class="form-range" min="0" max="10" step="1" oninput="updateRatingValue(this.value)" >
+        <label for="rating" class="form-label">Ocena (1-10) </label>
+        <input type="range" class="form-range" id="rating" name="rating" 
+               min="0" max="10" step="1" oninput="updateRatingValue(this.value)" required>
     </div>
 
     <h2 id="ratingValue" class="text-center"></h2>
@@ -24,12 +26,36 @@
     <button type="submit" class="btn btn-primary">Wyślij</button>
 </form>
 
+<div class="mt-5">
+    <h2>Zapisane recenzje:</h2>
+    {% if reviews %}
+        {% for review in reviews %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h3 class="card-title">{{ review.title }}</h3>
+                        <h4>{{ review.rating }} ⭐</h4>
+                    </div>
+                    <p class="card-text">{{ review.review }}</p>
+                    <small class="text-muted">Dodano: {{ review.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Brak recenzji do wyświetlenia.</p>
+    {% endif %}
+</div>
+
 <script>
-    // Aktualizacja oceny
     function updateRatingValue(value) {
-        rating = `${value} ⭐`
+        const rating = `${value} ⭐`;
         document.getElementById('ratingValue').textContent = rating;
     }
+
+    window.onload = function() {
+        const initialValue = document.getElementById('rating').value;
+        updateRatingValue(initialValue);
+    };
 </script>
 
 {% endblock %}
