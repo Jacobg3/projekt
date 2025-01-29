@@ -34,6 +34,14 @@ def index():
     reviews = Review.query.order_by(Review.created_at.desc()).all()
     return render_template("index.html", reviews=reviews)
 
+@app.route("/delete/<int:id>", methods=['POST'])
+def delete_review(id):
+    review = Review.query.get_or_404(id)
+    db.session.delete(review)
+    db.session.commit()
+    return redirect(url_for('index'))
+
+
 with app.app_context():
     db.create_all()
 
