@@ -12,6 +12,7 @@
 
    ```sh
    git clone https://github.com/Jacobg3/projekt
+   cd projekt
    ```
 
 2. **Utwórz wirtualne środowisko i aktywuj je:**
